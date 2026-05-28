@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLP Learning Hub — Interactive spaCy Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<!-- Mobile overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Hamburger -->
+<button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+
+<!-- ===== SIDEBAR ===== -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-badge">spaCy</div>
+    <h1>NLP Learning Hub</h1>
+    <p>Interactive NLP Playground</p>
+  </div>
+
+  <div class="nav-section-label">Overview</div>
+  <a class="nav-item active" data-section="home">
+    <span class="nav-icon">🏠</span> Home
+  </a>
+  <a class="nav-item" data-section="what-is-nlp">
+    <span class="nav-icon">🧠</span> What is NLP?
+  </a>
+  <a class="nav-item" data-section="spacy-intro">
+    <span class="nav-icon">⚡</span> About spaCy
+  </a>
+  <a class="nav-item" data-section="full-pipeline">
+    <span class="nav-icon">⚙️</span> Full Pipeline
+  </a>
+
+  <div class="nav-section-label">Core Concepts</div>
+  <a class="nav-item" data-section="tokenization">
+    <span class="nav-icon">🔤</span> Tokenization
+  </a>
+  <a class="nav-item" data-section="sentences">
+    <span class="nav-icon">📝</span> Sentence Segmentation
+  </a>
+  <a class="nav-item" data-section="pos-tagging">
+    <span class="nav-icon">🏷️</span> POS Tagging
+  </a>
+  <a class="nav-item" data-section="ner">
+    <span class="nav-icon">🎯</span> Named Entity Recognition
+  </a>
+  <a class="nav-item" data-section="dependency">
+    <span class="nav-icon">🌳</span> Dependency Parsing
+  </a>
+  <a class="nav-item" data-section="lemmatization">
+    <span class="nav-icon">📚</span> Lemmatization
+  </a>
+  <a class="nav-item" data-section="stopwords">
+    <span class="nav-icon">🚫</span> Stop Words
+  </a>
+  <a class="nav-item" data-section="similarity">
+    <span class="nav-icon">🔗</span> Text Similarity
+  </a>
+
+  <div class="nav-section-label">Reference</div>
+  <a class="nav-item" data-section="cheatsheet">
+    <span class="nav-icon">📋</span> spaCy Cheat Sheet
+  </a>
+
+  <div class="sidebar-footer">
+    Built with spaCy &amp; Flask · For learners everywhere
+  </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content">
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="home">
+    <div class="hero-badge">✨ Powered by spaCy 3.x</div>
+    <h1>Learn NLP<br/>Interactively</h1>
+    <p>The go-to platform for students, faculty, and AI/ML learners to explore Natural Language Processing concepts through live, hands-on demos powered by spaCy.</p>
+    <div class="hero-features">
+      <div class="hero-feature"><span>🔤</span> Tokenization</div>
+      <div class="hero-feature"><span>🎯</span> Named Entities</div>
+      <div class="hero-feature"><span>🏷️</span> POS Tagging</div>
+      <div class="hero-feature"><span>🌳</span> Dependency Parsing</div>
+      <div class="hero-feature"><span>📚</span> Lemmatization</div>
+      <div class="hero-feature"><span>🔗</span> Text Similarity</div>
+    </div>
+    <div class="hero-pipeline">
+      <div class="pipeline-step">Raw Text</div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step highlight">Tokenizer</div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step highlight">Tagger</div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step highlight">Parser</div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step highlight">NER</div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">Doc Object</div>
+    </div>
+
+    <div class="quick-demo">
+      <h3>⚡ Quick Analysis — try the full pipeline right here</h3>
+      <textarea class="quick-demo-input" id="fp-input" rows="3"
+        placeholder="Enter any text to run the full spaCy pipeline...">SpaceX, founded by Elon Musk in 2002, successfully launched its Falcon 9 rocket from Cape Canaveral on Tuesday. NASA has partnered with SpaceX for $2.6 billion to deliver astronauts to the International Space Station.</textarea>
+      <div class="quick-demo-row">
+        <button class="btn btn-primary" id="fp-analyze">⚙️ Run Full Pipeline</button>
+        <button class="btn btn-ghost btn-sm" id="fp-example">Try Example</button>
+      </div>
+      <div class="result-area" id="fp-result">
+        <div class="result-placeholder"><div class="placeholder-icon">⚙️</div><span>Click "Run Full Pipeline" to analyze</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHAT IS NLP ── -->
+  <section class="content-section" id="what-is-nlp">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-blue">🧠</div>
+      <div>
+        <h2 class="section-title">What is Natural Language Processing?</h2>
+        <p class="section-subtitle">The field that lets computers understand and work with human language</p>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">🗣️</div>
+        <h4>Language Understanding</h4>
+        <p>NLP enables computers to read, understand, interpret, and generate human language in a meaningful and useful way.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🤖</div>
+        <h4>Machine Learning Core</h4>
+        <p>Modern NLP uses deep learning and transformer models to process text at human-level accuracy on many tasks.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🌐</div>
+        <h4>Real-World Impact</h4>
+        <p>Powers search engines, virtual assistants, translation, sentiment analysis, chatbots, and content moderation.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📊</div>
+        <h4>Text as Data</h4>
+        <p>Turns unstructured text — 80% of the world's data — into structured insights that algorithms can reason over.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Core NLP Tasks</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px">
+        <div style="padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+          <strong style="font-size:.85rem">Tokenization</strong><br>
+          <span style="font-size:.8rem;color:#64748b">Splitting text into words/subwords</span>
+        </div>
+        <div style="padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+          <strong style="font-size:.85rem">POS Tagging</strong><br>
+          <span style="font-size:.8rem;color:#64748b">Labeling nouns, verbs, adjectives…</span>
+        </div>
+        <div style="padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+          <strong style="font-size:.85rem">Named Entity Recognition</strong><br>
+          <span style="font-size:.8rem;color:#64748b">Finding people, places, organizations</span>
+        </div>
+        <div style="padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+          <strong style="font-size:.85rem">Sentiment Analysis</strong><br>
+          <span style="font-size:.8rem;color:#64748b">Detecting positive/negative opinion</span>
+        </div>
+        <div style="padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+          <strong style="font-size:.85rem">Machine Translation</strong><br>
+          <span style="font-size:.8rem;color:#64748b">Translating between languages</span>
+        </div>
+        <div style="padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+          <strong style="font-size:.85rem">Question Answering</strong><br>
+          <span style="font-size:.8rem;color:#64748b">Extracting answers from context</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SPACY INTRO ── -->
+  <section class="content-section" id="spacy-intro">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-purple">⚡</div>
+      <div>
+        <h2 class="section-title">About spaCy</h2>
+        <p class="section-subtitle">Industrial-strength Natural Language Processing in Python</p>
+      </div>
+    </div>
+
+    <div class="pipeline-visual">
+      <div class="pipeline-visual-step">
+        <div class="pipeline-visual-icon icon-blue">📄</div>
+        <h4>Text Input</h4>
+        <p>Raw string</p>
+      </div>
+      <div class="pipeline-connector">→</div>
+      <div class="pipeline-visual-step">
+        <div class="pipeline-visual-icon icon-purple">✂️</div>
+        <h4>Tokenizer</h4>
+        <p>Words &amp; punctuation</p>
+      </div>
+      <div class="pipeline-connector">→</div>
+      <div class="pipeline-visual-step">
+        <div class="pipeline-visual-icon icon-orange">🏷️</div>
+        <h4>Tagger</h4>
+        <p>POS labels</p>
+      </div>
+      <div class="pipeline-connector">→</div>
+      <div class="pipeline-visual-step">
+        <div class="pipeline-visual-icon icon-green">🌳</div>
+        <h4>Parser</h4>
+        <p>Syntax tree</p>
+      </div>
+      <div class="pipeline-connector">→</div>
+      <div class="pipeline-visual-step">
+        <div class="pipeline-visual-icon icon-pink">🎯</div>
+        <h4>NER</h4>
+        <p>Named entities</p>
+      </div>
+      <div class="pipeline-connector">→</div>
+      <div class="pipeline-visual-step">
+        <div class="pipeline-visual-icon icon-teal">📦</div>
+        <h4>Doc Object</h4>
+        <p>Annotated text</p>
+      </div>
+    </div>
+
+    <div class="concept-grid" style="grid-template-columns:1fr 1fr">
+      <div class="card">
+        <h3>Why spaCy?</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="key-point-icon">✓</div>Fastest NLP library available in Python</div>
+          <div class="key-point"><div class="key-point-icon">✓</div>Pre-trained models for 70+ languages</div>
+          <div class="key-point"><div class="key-point-icon">✓</div>Production-ready, used by top companies</div>
+          <div class="key-point"><div class="key-point-icon">✓</div>Clean, Pythonic API — easy to learn</div>
+          <div class="key-point"><div class="key-point-icon">✓</div>Supports transformers (BERT, RoBERTa…)</div>
+          <div class="key-point"><div class="key-point-icon">✓</div>Active open-source community</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-lang">
+            <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+            🐍 Python — Getting Started
+          </div>
+          <button class="btn-copy">Copy</button>
+        </div>
+        <div class="code-body"><pre><span class="cm"># Install spaCy and download a model</span>
+<span class="cm"># pip install spacy</span>
+<span class="cm"># python -m spacy download en_core_web_sm</span>
+
+<span class="kw">import</span> spacy
+
+<span class="cm"># Load the English model</span>
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+<span class="cm"># Process text — creates a Doc object</span>
+doc = nlp(<span class="str">"Apple is looking at buying U.K. startup."</span>)
+
+<span class="cm"># Every token is accessible</span>
+<span class="kw">for</span> token <span class="kw">in</span> doc:
+    <span class="nb">print</span>(token.text, token.pos_, token.dep_)
+
+<span class="cm"># Named entities</span>
+<span class="kw">for</span> ent <span class="kw">in</span> doc.ents:
+    <span class="nb">print</span>(ent.text, ent.label_)</pre></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FULL PIPELINE (placeholder — hero has the demo) ── -->
+  <section class="content-section" id="full-pipeline" style="display:none"></section>
+
+  <!-- ── TOKENIZATION ── -->
+  <section class="content-section" id="tokenization">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-purple">🔤</div>
+      <div>
+        <h2 class="section-title">Tokenization</h2>
+        <p class="section-subtitle">Breaking text into its smallest meaningful units — tokens</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What is Tokenization?</h3>
+        <p>Tokenization is the process of splitting text into individual pieces called <strong>tokens</strong>. Tokens are usually words, punctuation marks, or numbers — the atomic units that NLP models process.</p>
+        <div class="key-points" style="margin-top:16px">
+          <div class="key-point"><div class="key-point-icon">1</div>spaCy's tokenizer handles contractions: <em>don't → do + n't</em></div>
+          <div class="key-point"><div class="key-point-icon">2</div>Punctuation is split from words automatically</div>
+          <div class="key-point"><div class="key-point-icon">3</div>Every token has a unique index (position) in the text</div>
+          <div class="key-point"><div class="key-point-icon">4</div>The first step in every spaCy pipeline</div>
+        </div>
+        <div style="margin-top:16px;padding:12px;background:#ede9fe;border-radius:8px;font-size:.82rem;color:#5b21b6">
+          <strong>Token types:</strong> <span style="background:#dbeafe;color:#1d4ed8;padding:2px 6px;border-radius:4px;margin:2px">word</span>
+          <span style="background:#fef9c3;color:#854d0e;padding:2px 6px;border-radius:4px;margin:2px">punct</span>
+          <span style="background:#d1fae5;color:#065f46;padding:2px 6px;border-radius:4px;margin:2px">digit</span>
+          <span style="background:#f1f5f9;color:#64748b;padding:2px 6px;border-radius:4px;margin:2px">stop word</span>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>🔤 Try Tokenization</h3>
+          <button class="btn btn-ghost btn-sm" id="tok-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <textarea class="demo-textarea" id="tok-input"
+            placeholder="Enter any text to tokenize...">Apple is looking at buying U.K. startup for $1 billion!</textarea>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="tok-analyze">Analyze →</button>
+          </div>
+          <div class="result-area" id="tok-result">
+            <div class="result-placeholder"><div class="placeholder-icon">🔤</div><span>Tokens will appear here as colorful chips</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 Tokenization with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+doc = nlp(<span class="str">"Apple is looking at buying U.K. startup for $1 billion!"</span>)
+
+<span class="kw">for</span> token <span class="kw">in</span> doc:
+    <span class="nb">print</span>(<span class="fn">f</span><span class="str">"{token.text:15} is_stop={token.is_stop} is_punct={token.is_punct}"</span>)
+
+<span class="cm"># Output:</span>
+<span class="cm"># Apple          is_stop=False is_punct=False</span>
+<span class="cm"># is             is_stop=True  is_punct=False</span>
+<span class="cm"># looking        is_stop=False is_punct=False</span>
+<span class="cm"># ...            ...</span>
+<span class="cm"># !              is_stop=False is_punct=True</span>
+
+<span class="cm"># Token attributes:</span>
+token = doc[<span class="nb">0</span>]
+<span class="nb">print</span>(token.text)    <span class="cm"># 'Apple'</span>
+<span class="nb">print</span>(token.idx)     <span class="cm"># character offset</span>
+<span class="nb">print</span>(token.is_alpha)<span class="cm"># True</span>
+<span class="nb">print</span>(token.is_stop) <span class="cm"># False</span></pre></div>
+    </div>
+  </section>
+
+  <!-- ── SENTENCE SEGMENTATION ── -->
+  <section class="content-section" id="sentences">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-blue">📝</div>
+      <div>
+        <h2 class="section-title">Sentence Segmentation</h2>
+        <p class="section-subtitle">Detecting sentence boundaries in continuous text</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What is Sentence Segmentation?</h3>
+        <p>Sentence segmentation (or <strong>sentence boundary detection</strong>) identifies where one sentence ends and another begins. This is harder than it sounds — a period after "Dr." doesn't end a sentence!</p>
+        <div class="key-points" style="margin-top:16px">
+          <div class="key-point"><div class="key-point-icon">1</div>Uses the dependency parser to find sentence roots</div>
+          <div class="key-point"><div class="key-point-icon">2</div>Handles abbreviations like U.S.A., Dr., etc.</div>
+          <div class="key-point"><div class="key-point-icon">3</div>Essential for summarization and translation tasks</div>
+          <div class="key-point"><div class="key-point-icon">4</div>Accessed via <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-family:monospace">doc.sents</code></div>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>📝 Try Sentence Segmentation</h3>
+          <button class="btn btn-ghost btn-sm" id="sent-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <textarea class="demo-textarea" id="sent-input"
+            placeholder="Enter multiple sentences...">Natural language processing is fascinating. spaCy makes it incredibly easy to analyze text! Do you want to learn more? Dr. Smith at MIT has published 12 papers on the topic.</textarea>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="sent-analyze">Analyze →</button>
+          </div>
+          <div class="result-area" id="sent-result">
+            <div class="result-placeholder"><div class="placeholder-icon">📝</div><span>Detected sentences will appear color-coded</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 Sentence Segmentation with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+text = <span class="str">"NLP is fascinating. Dr. Smith agrees! Do you?"</span>
+doc = nlp(text)
+
+<span class="cm"># Iterate over detected sentences</span>
+<span class="kw">for</span> i, sent <span class="kw">in</span> <span class="nb">enumerate</span>(doc.sents):
+    <span class="nb">print</span>(<span class="fn">f</span><span class="str">"Sentence {i+1}: {sent.text}"</span>)
+    <span class="nb">print</span>(<span class="fn">f</span><span class="str">"  Tokens: {len(sent)}"</span>)
+
+<span class="cm"># Convert to list</span>
+sentences = <span class="nb">list</span>(doc.sents)
+<span class="nb">print</span>(<span class="fn">f</span><span class="str">"Total sentences: {len(sentences)}"</span>)</pre></div>
+    </div>
+  </section>
+
+  <!-- ── POS TAGGING ── -->
+  <section class="content-section" id="pos-tagging">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-orange">🏷️</div>
+      <div>
+        <h2 class="section-title">Part-of-Speech Tagging</h2>
+        <p class="section-subtitle">Labeling every word with its grammatical role</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What is POS Tagging?</h3>
+        <p>POS tagging assigns a grammatical category — noun, verb, adjective, etc. — to each token. It's the foundation for understanding sentence structure.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px;font-size:.78rem">
+          <div style="padding:6px 8px;background:#dbeafe;border-radius:6px;color:#1e40af"><strong>NOUN</strong> — person, place, thing</div>
+          <div style="padding:6px 8px;background:#fce7f3;border-radius:6px;color:#9d174d"><strong>VERB</strong> — action, state</div>
+          <div style="padding:6px 8px;background:#d1fae5;border-radius:6px;color:#065f46"><strong>ADJ</strong> — describes noun</div>
+          <div style="padding:6px 8px;background:#fef3c7;border-radius:6px;color:#92400e"><strong>ADV</strong> — modifies verb/adj</div>
+          <div style="padding:6px 8px;background:#ede9fe;border-radius:6px;color:#5b21b6"><strong>PROPN</strong> — proper noun</div>
+          <div style="padding:6px 8px;background:#cffafe;border-radius:6px;color:#155e75"><strong>CCONJ</strong> — and, but, or</div>
+          <div style="padding:6px 8px;background:#fdf4ff;border-radius:6px;color:#86198f"><strong>PRON</strong> — he, she, it</div>
+          <div style="padding:6px 8px;background:#fff7ed;border-radius:6px;color:#c2410c"><strong>DET</strong> — the, a, an</div>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>🏷️ Try POS Tagging</h3>
+          <button class="btn btn-ghost btn-sm" id="pos-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <textarea class="demo-textarea" id="pos-input"
+            placeholder="Enter text to tag parts of speech...">The ancient dragon soared gracefully through the dark stormy sky above the misty mountains.</textarea>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="pos-analyze">Analyze →</button>
+          </div>
+          <div class="result-area" id="pos-result">
+            <div class="result-placeholder"><div class="placeholder-icon">🏷️</div><span>Words will appear with color-coded POS tags below</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 POS Tagging with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+doc = nlp(<span class="str">"The ancient dragon soared gracefully."</span>)
+
+<span class="kw">for</span> token <span class="kw">in</span> doc:
+    <span class="nb">print</span>(<span class="fn">f</span><span class="str">"{token.text:12} POS={token.pos_:8} TAG={token.tag_}"</span>)
+
+<span class="cm"># token.pos_  — coarse-grained (NOUN, VERB, ADJ…)</span>
+<span class="cm"># token.tag_  — fine-grained  (NN, VBD, JJ…)</span>
+
+<span class="cm"># Get human-readable explanation</span>
+<span class="nb">print</span>(spacy.explain(<span class="str">"VBD"</span>))  <span class="cm"># verb, past tense</span>
+<span class="nb">print</span>(spacy.explain(<span class="str">"NOUN"</span>)) <span class="cm"># noun</span>
+
+<span class="cm"># Filter by POS</span>
+nouns = [t.text <span class="kw">for</span> t <span class="kw">in</span> doc <span class="kw">if</span> t.pos_ == <span class="str">"NOUN"</span>]
+verbs = [t.text <span class="kw">for</span> t <span class="kw">in</span> doc <span class="kw">if</span> t.pos_ == <span class="str">"VERB"</span>]</pre></div>
+    </div>
+  </section>
+
+  <!-- ── NER ── -->
+  <section class="content-section" id="ner">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-pink">🎯</div>
+      <div>
+        <h2 class="section-title">Named Entity Recognition</h2>
+        <p class="section-subtitle">Identifying and classifying real-world entities in text</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What is NER?</h3>
+        <p>Named Entity Recognition (NER) locates and classifies <strong>named entities</strong> — real-world objects like people, organizations, and locations — in unstructured text.</p>
+        <div class="key-points" style="margin-top:14px">
+          <div class="key-point"><div class="key-point-icon">👤</div><strong>PERSON</strong> — People, characters</div>
+          <div class="key-point"><div class="key-point-icon">🏢</div><strong>ORG</strong> — Companies, agencies, institutions</div>
+          <div class="key-point"><div class="key-point-icon">🌍</div><strong>GPE</strong> — Countries, cities, states</div>
+          <div class="key-point"><div class="key-point-icon">📅</div><strong>DATE</strong> — Absolute or relative dates</div>
+          <div class="key-point"><div class="key-point-icon">💰</div><strong>MONEY</strong> — Monetary values</div>
+          <div class="key-point"><div class="key-point-icon">📍</div><strong>LOC</strong> — Non-GPE locations</div>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>🎯 Try Named Entity Recognition</h3>
+          <button class="btn btn-ghost btn-sm" id="ner-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <textarea class="demo-textarea" id="ner-input"
+            placeholder="Enter text with people, places, organizations...">Elon Musk founded Tesla in California. Amazon was started by Jeff Bezos in Seattle in 1994. Apple released the iPhone in January 2007, which cost $499.</textarea>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="ner-analyze">Analyze →</button>
+          </div>
+          <div class="result-area" id="ner-result">
+            <div class="result-placeholder"><div class="placeholder-icon">🎯</div><span>Entities will be highlighted with color-coded labels</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 Named Entity Recognition with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+doc = nlp(<span class="str">"Elon Musk founded Tesla in California in 2003."</span>)
+
+<span class="cm"># Iterate over named entities</span>
+<span class="kw">for</span> ent <span class="kw">in</span> doc.ents:
+    <span class="nb">print</span>(<span class="fn">f</span><span class="str">"{ent.text:20} {ent.label_:10} {spacy.explain(ent.label_)}"</span>)
+
+<span class="cm"># Elon Musk            PERSON     People, including fictional</span>
+<span class="cm"># Tesla                ORG        Companies, agencies, institutions</span>
+<span class="cm"># California           GPE        Countries, cities, states</span>
+<span class="cm"># 2003                 DATE       Absolute or relative dates</span>
+
+<span class="cm"># Visualize in browser (Jupyter / Flask)</span>
+<span class="kw">from</span> spacy <span class="kw">import</span> displacy
+displacy.render(doc, style=<span class="str">"ent"</span>)  <span class="cm"># → HTML</span>
+
+<span class="cm"># Entity properties</span>
+ent = doc.ents[<span class="nb">0</span>]
+<span class="nb">print</span>(ent.start_char, ent.end_char)  <span class="cm"># character offsets</span></pre></div>
+    </div>
+  </section>
+
+  <!-- ── DEPENDENCY PARSING ── -->
+  <section class="content-section" id="dependency">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-green">🌳</div>
+      <div>
+        <h2 class="section-title">Dependency Parsing</h2>
+        <p class="section-subtitle">Revealing the grammatical structure and relationships between words</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What is Dependency Parsing?</h3>
+        <p>Dependency parsing analyzes the grammatical structure of a sentence, establishing relationships between "head" words and words that depend on them.</p>
+        <div class="key-points" style="margin-top:14px">
+          <div class="key-point"><div class="key-point-icon">ROOT</div>The main verb — the root of the sentence</div>
+          <div class="key-point"><div class="key-point-icon">nsubj</div>Nominal subject — who is doing the action</div>
+          <div class="key-point"><div class="key-point-icon">dobj</div>Direct object — what receives the action</div>
+          <div class="key-point"><div class="key-point-icon">amod</div>Adjectival modifier — adjective modifying a noun</div>
+          <div class="key-point"><div class="key-point-icon">prep</div>Prepositional modifier (on, in, at…)</div>
+        </div>
+        <div class="alert alert-info" style="margin-top:14px;font-size:.82rem">
+          💡 Try a short sentence like "The cat sat on the mat." for the clearest result.
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>🌳 Try Dependency Parsing</h3>
+          <button class="btn btn-ghost btn-sm" id="dep-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <textarea class="demo-textarea" id="dep-input"
+            placeholder="Enter a sentence (shorter = clearer)...">The cat sat on the mat.</textarea>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="dep-analyze">Analyze →</button>
+          </div>
+          <div class="result-area" id="dep-result">
+            <div class="result-placeholder"><div class="placeholder-icon">🌳</div><span>Dependency relations shown as an annotated table</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 Dependency Parsing with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+doc = nlp(<span class="str">"The cat sat on the mat."</span>)
+
+<span class="kw">for</span> token <span class="kw">in</span> doc:
+    <span class="nb">print</span>(<span class="fn">f</span><span class="str">"{token.text:8} dep={token.dep_:10} head={token.head.text}"</span>)
+
+<span class="cm"># Find the root verb</span>
+root = [t <span class="kw">for</span> t <span class="kw">in</span> doc <span class="kw">if</span> t.dep_ == <span class="str">"ROOT"</span>][<span class="nb">0</span>]
+<span class="nb">print</span>(<span class="fn">f</span><span class="str">"Root: {root.text}"</span>)
+
+<span class="cm"># Subject and object</span>
+subject = [t <span class="kw">for</span> t <span class="kw">in</span> doc <span class="kw">if</span> t.dep_ == <span class="str">"nsubj"</span>]
+dobj    = [t <span class="kw">for</span> t <span class="kw">in</span> doc <span class="kw">if</span> t.dep_ == <span class="str">"dobj"</span>]
+
+<span class="cm"># Visualize the tree</span>
+<span class="kw">from</span> spacy <span class="kw">import</span> displacy
+displacy.render(doc, style=<span class="str">"dep"</span>)</pre></div>
+    </div>
+  </section>
+
+  <!-- ── LEMMATIZATION ── -->
+  <section class="content-section" id="lemmatization">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-yellow">📚</div>
+      <div>
+        <h2 class="section-title">Lemmatization</h2>
+        <p class="section-subtitle">Reducing words to their base dictionary form</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What is Lemmatization?</h3>
+        <p>Lemmatization reduces inflected words to their <strong>lemma</strong> — the base dictionary form. Unlike stemming, it produces real words by considering the word's meaning and context.</p>
+        <div style="margin-top:14px;font-size:.83rem">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:6px;margin-bottom:6px">
+            <span style="color:#94a3b8;min-width:70px">running</span>
+            <span style="color:#94a3b8">→</span>
+            <span style="color:#065f46;font-weight:600">run</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:6px;margin-bottom:6px">
+            <span style="color:#94a3b8;min-width:70px">better</span>
+            <span style="color:#94a3b8">→</span>
+            <span style="color:#065f46;font-weight:600">good</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:6px;margin-bottom:6px">
+            <span style="color:#94a3b8;min-width:70px">children</span>
+            <span style="color:#94a3b8">→</span>
+            <span style="color:#065f46;font-weight:600">child</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:6px">
+            <span style="color:#94a3b8;min-width:70px">was</span>
+            <span style="color:#94a3b8">→</span>
+            <span style="color:#065f46;font-weight:600">be</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>📚 Try Lemmatization</h3>
+          <button class="btn btn-ghost btn-sm" id="lem-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <textarea class="demo-textarea" id="lem-input"
+            placeholder="Enter text to lemmatize...">The children were running quickly while their dogs barked loudly at the passing cars.</textarea>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="lem-analyze">Analyze →</button>
+          </div>
+          <div class="result-area" id="lem-result">
+            <div class="result-placeholder"><div class="placeholder-icon">📚</div><span>Changed words highlighted in green</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 Lemmatization with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+doc = nlp(<span class="str">"The children were running and the dogs barked."</span>)
+
+<span class="kw">for</span> token <span class="kw">in</span> doc:
+    <span class="kw">if</span> <span class="kw">not</span> token.is_punct <span class="kw">and not</span> token.is_space:
+        <span class="nb">print</span>(<span class="fn">f</span><span class="str">"{token.text:15} → {token.lemma_}"</span>)
+
+<span class="cm"># children → child</span>
+<span class="cm"># were     → be</span>
+<span class="cm"># running  → run</span>
+<span class="cm"># dogs     → dog</span>
+<span class="cm"># barked   → bark</span>
+
+<span class="cm"># Lemmatization vs Stemming:</span>
+<span class="cm"># Stemming:       running → run  (but also: better → bet ❌)</span>
+<span class="cm"># Lemmatization:  better  → good (context-aware ✓)</span></pre></div>
+    </div>
+  </section>
+
+  <!-- ── STOP WORDS ── -->
+  <section class="content-section" id="stopwords">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-red">🚫</div>
+      <div>
+        <h2 class="section-title">Stop Words</h2>
+        <p class="section-subtitle">Filtering out common words that carry little meaning</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What are Stop Words?</h3>
+        <p>Stop words are very common words — <em>the, is, at, which, on</em> — that appear frequently but carry little semantic meaning. Removing them reduces noise and improves NLP model efficiency.</p>
+        <div class="key-points" style="margin-top:14px">
+          <div class="key-point"><div class="key-point-icon">✓</div>spaCy has 326 English stop words built-in</div>
+          <div class="key-point"><div class="key-point-icon">✓</div>Improves TF-IDF, topic modeling, search</div>
+          <div class="key-point"><div class="key-point-icon">✓</div>Can add/remove custom stop words</div>
+          <div class="key-point"><div class="key-point-icon">⚠</div>Not always helpful — sentiment analysis needs "not"!</div>
+        </div>
+        <div style="margin-top:14px;padding:12px;background:#fef2f2;border-radius:8px;font-size:.82rem;color:#991b1b">
+          <strong>Common stop words:</strong> the, a, an, is, are, was, were, be, been, have, has, had, do, does, did, will, would, could, should, and, or, but, in, on, at, to, of, for…
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>🚫 Try Stop Word Removal</h3>
+          <button class="btn btn-ghost btn-sm" id="sw-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <textarea class="demo-textarea" id="sw-input"
+            placeholder="Enter text to identify stop words...">Natural language processing is a fascinating field that combines the power of linguistics with computer science and machine learning.</textarea>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="sw-analyze">Analyze →</button>
+          </div>
+          <div class="result-area" id="sw-result">
+            <div class="result-placeholder"><div class="placeholder-icon">🚫</div><span>Stop words shown crossed out, content words highlighted</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 Stop Words with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_sm"</span>)
+
+doc = nlp(<span class="str">"NLP is a fascinating field of computer science."</span>)
+
+<span class="cm"># Filter out stop words</span>
+content = [t.text <span class="kw">for</span> t <span class="kw">in</span> doc
+           <span class="kw">if not</span> t.is_stop <span class="kw">and not</span> t.is_punct]
+<span class="nb">print</span>(content)  <span class="cm"># ['NLP', 'fascinating', 'field', 'computer', 'science']</span>
+
+<span class="cm"># Check a word</span>
+<span class="nb">print</span>(nlp.vocab[<span class="str">"the"</span>].is_stop)  <span class="cm"># True</span>
+<span class="nb">print</span>(nlp.vocab[<span class="str">"nlp"</span>].is_stop)  <span class="cm"># False</span>
+
+<span class="cm"># Customize: add/remove stop words</span>
+nlp.Defaults.stop_words.add(<span class="str">"nlp"</span>)
+nlp.vocab[<span class="str">"nlp"</span>].is_stop = <span class="nb">True</span>
+
+nlp.Defaults.stop_words.discard(<span class="str">"not"</span>)
+nlp.vocab[<span class="str">"not"</span>].is_stop = <span class="nb">False</span></pre></div>
+    </div>
+  </section>
+
+  <!-- ── SIMILARITY ── -->
+  <section class="content-section" id="similarity">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-teal">🔗</div>
+      <div>
+        <h2 class="section-title">Text Similarity</h2>
+        <p class="section-subtitle">Measuring how semantically close two pieces of text are</p>
+      </div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="card">
+        <h3>What is Text Similarity?</h3>
+        <p>spaCy measures similarity using <strong>word vectors</strong> — numerical representations of words in a high-dimensional space where similar words are close together.</p>
+        <div class="key-points" style="margin-top:14px">
+          <div class="key-point"><div class="key-point-icon">📐</div>Uses cosine similarity between vector representations</div>
+          <div class="key-point"><div class="key-point-icon">🔢</div>Returns a score from 0.0 (different) to 1.0 (identical)</div>
+          <div class="key-point"><div class="key-point-icon">🧠</div>Captures semantic meaning, not just exact word matches</div>
+          <div class="key-point"><div class="key-point-icon">🌐</div>Used in duplicate detection, recommendation, search</div>
+        </div>
+        <div class="alert alert-warning" style="margin-top:14px;font-size:.82rem">
+          ⚠ The small model (en_core_web_sm) has limited vectors. For production use <code>en_core_web_md</code> or <code>en_core_web_lg</code>.
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-card-header">
+          <h3>🔗 Try Text Similarity</h3>
+          <button class="btn btn-ghost btn-sm" id="sim-example">Load Example</button>
+        </div>
+        <div class="demo-body">
+          <div class="sim-two-inputs">
+            <div>
+              <label style="font-size:.78rem;font-weight:600;color:#64748b;display:block;margin-bottom:4px">Text A</label>
+              <textarea class="demo-textarea" id="sim-input1" rows="3"
+                placeholder="First text...">I love playing basketball with my friends on weekends.</textarea>
+            </div>
+            <div>
+              <label style="font-size:.78rem;font-weight:600;color:#64748b;display:block;margin-bottom:4px">Text B</label>
+              <textarea class="demo-textarea" id="sim-input2" rows="3"
+                placeholder="Second text...">Playing sports and outdoor games is my favourite hobby.</textarea>
+            </div>
+          </div>
+          <div class="demo-controls">
+            <button class="btn btn-primary" id="sim-analyze">Compare →</button>
+          </div>
+          <div class="result-area" id="sim-result">
+            <div class="result-placeholder"><div class="placeholder-icon">🔗</div><span>Similarity score will appear as a percentage meter</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          🐍 Text Similarity with spaCy
+        </div>
+        <button class="btn-copy">Copy</button>
+      </div>
+      <div class="code-body"><pre><span class="kw">import</span> spacy
+nlp = spacy.load(<span class="str">"en_core_web_md"</span>)  <span class="cm"># md/lg has better vectors</span>
+
+doc1 = nlp(<span class="str">"I love playing basketball."</span>)
+doc2 = nlp(<span class="str">"Playing sports is my hobby."</span>)
+
+<span class="cm"># Document-level similarity</span>
+<span class="nb">print</span>(doc1.similarity(doc2))  <span class="cm"># e.g. 0.87</span>
+
+<span class="cm"># Token-level similarity</span>
+king  = nlp(<span class="str">"king"</span>)[<span class="nb">0</span>]
+queen = nlp(<span class="str">"queen"</span>)[<span class="nb">0</span>]
+man   = nlp(<span class="str">"man"</span>)[<span class="nb">0</span>]
+<span class="nb">print</span>(king.similarity(queen))  <span class="cm"># high</span>
+<span class="nb">print</span>(king.similarity(man))    <span class="cm"># moderate</span>
+
+<span class="cm"># Word vectors (300-dim by default)</span>
+<span class="nb">print</span>(king.vector.shape)       <span class="cm"># (300,)</span>
+<span class="nb">print</span>(king.has_vector)         <span class="cm"># True</span></pre></div>
+    </div>
+  </section>
+
+  <!-- ── CHEAT SHEET ── -->
+  <section class="content-section" id="cheatsheet">
+    <div class="section-header">
+      <div class="section-icon-wrap icon-indigo">📋</div>
+      <div>
+        <h2 class="section-title">spaCy Quick Reference</h2>
+        <p class="section-subtitle">The most-used attributes, methods, and patterns</p>
+      </div>
+    </div>
+
+    <div class="cheatsheet-grid">
+      <div class="cheatsheet-card">
+        <h4>🔤 Token Attributes</h4>
+        <table class="cheatsheet-table">
+          <tr><td>token.text</td><td>Original text</td></tr>
+          <tr><td>token.lemma_</td><td>Base form (lemma)</td></tr>
+          <tr><td>token.pos_</td><td>Coarse POS tag</td></tr>
+          <tr><td>token.tag_</td><td>Fine-grained POS tag</td></tr>
+          <tr><td>token.dep_</td><td>Dependency label</td></tr>
+          <tr><td>token.head</td><td>Syntactic head token</td></tr>
+          <tr><td>token.is_stop</td><td>Is it a stop word?</td></tr>
+          <tr><td>token.is_alpha</td><td>All alphabetic?</td></tr>
+          <tr><td>token.is_digit</td><td>All digits?</td></tr>
+          <tr><td>token.is_punct</td><td>Is punctuation?</td></tr>
+          <tr><td>token.idx</td><td>Char offset in text</td></tr>
+          <tr><td>token.vector</td><td>Word vector (numpy)</td></tr>
+        </table>
+      </div>
+
+      <div class="cheatsheet-card">
+        <h4>📄 Doc Attributes</h4>
+        <table class="cheatsheet-table">
+          <tr><td>doc.text</td><td>Original text string</td></tr>
+          <tr><td>doc.ents</td><td>Named entity spans</td></tr>
+          <tr><td>doc.sents</td><td>Sentence generator</td></tr>
+          <tr><td>doc.noun_chunks</td><td>Noun phrase chunks</td></tr>
+          <tr><td>doc.similarity(doc2)</td><td>Cosine similarity</td></tr>
+          <tr><td>doc.vector</td><td>Doc vector (mean)</td></tr>
+          <tr><td>doc[i]</td><td>Token at index i</td></tr>
+          <tr><td>doc[i:j]</td><td>Span from i to j</td></tr>
+          <tr><td>len(doc)</td><td>Number of tokens</td></tr>
+        </table>
+      </div>
+
+      <div class="cheatsheet-card">
+        <h4>🎯 Entity (Span) Attributes</h4>
+        <table class="cheatsheet-table">
+          <tr><td>ent.text</td><td>Entity surface form</td></tr>
+          <tr><td>ent.label_</td><td>Entity type (PERSON…)</td></tr>
+          <tr><td>ent.start_char</td><td>Start char offset</td></tr>
+          <tr><td>ent.end_char</td><td>End char offset</td></tr>
+          <tr><td>ent.start</td><td>Start token index</td></tr>
+          <tr><td>ent.end</td><td>End token index</td></tr>
+          <tr><td>spacy.explain(label)</td><td>Human explanation</td></tr>
+        </table>
+      </div>
+
+      <div class="cheatsheet-card">
+        <h4>⚙️ Common POS Tags</h4>
+        <table class="cheatsheet-table">
+          <tr><td>NOUN</td><td>Noun</td></tr>
+          <tr><td>VERB</td><td>Verb</td></tr>
+          <tr><td>ADJ</td><td>Adjective</td></tr>
+          <tr><td>ADV</td><td>Adverb</td></tr>
+          <tr><td>PROPN</td><td>Proper noun</td></tr>
+          <tr><td>PRON</td><td>Pronoun</td></tr>
+          <tr><td>DET</td><td>Determiner</td></tr>
+          <tr><td>ADP</td><td>Adposition (prep.)</td></tr>
+          <tr><td>CCONJ</td><td>Coord. conjunction</td></tr>
+          <tr><td>AUX</td><td>Auxiliary verb</td></tr>
+          <tr><td>NUM</td><td>Numeral</td></tr>
+          <tr><td>PUNCT</td><td>Punctuation</td></tr>
+        </table>
+      </div>
+
+      <div class="cheatsheet-card">
+        <h4>🌳 Common Dependency Labels</h4>
+        <table class="cheatsheet-table">
+          <tr><td>ROOT</td><td>Main verb of sentence</td></tr>
+          <tr><td>nsubj</td><td>Nominal subject</td></tr>
+          <tr><td>dobj</td><td>Direct object</td></tr>
+          <tr><td>iobj</td><td>Indirect object</td></tr>
+          <tr><td>amod</td><td>Adjectival modifier</td></tr>
+          <tr><td>advmod</td><td>Adverbial modifier</td></tr>
+          <tr><td>det</td><td>Determiner</td></tr>
+          <tr><td>prep</td><td>Prepositional modifier</td></tr>
+          <tr><td>pobj</td><td>Object of preposition</td></tr>
+          <tr><td>compound</td><td>Compound word</td></tr>
+          <tr><td>attr</td><td>Attribute (with be)</td></tr>
+        </table>
+      </div>
+
+      <div class="cheatsheet-card">
+        <h4>🎯 NER Entity Types</h4>
+        <table class="cheatsheet-table">
+          <tr><td>PERSON</td><td>People, characters</td></tr>
+          <tr><td>ORG</td><td>Organizations</td></tr>
+          <tr><td>GPE</td><td>Countries, cities</td></tr>
+          <tr><td>LOC</td><td>Locations (non-GPE)</td></tr>
+          <tr><td>PRODUCT</td><td>Objects, vehicles</td></tr>
+          <tr><td>DATE</td><td>Dates, periods</td></tr>
+          <tr><td>TIME</td><td>Times of day</td></tr>
+          <tr><td>MONEY</td><td>Monetary values</td></tr>
+          <tr><td>PERCENT</td><td>Percentages</td></tr>
+          <tr><td>NORP</td><td>Nationalities, groups</td></tr>
+          <tr><td>EVENT</td><td>Named events</td></tr>
+          <tr><td>WORK_OF_ART</td><td>Books, songs, art</td></tr>
+        </table>
+      </div>
+
+      <div class="cheatsheet-card">
+        <h4>🚀 Common Patterns</h4>
+        <table class="cheatsheet-table">
+          <tr><td>nlp.pipe(texts)</td><td>Batch process texts</td></tr>
+          <tr><td>nlp.pipe_names</td><td>List pipeline steps</td></tr>
+          <tr><td>doc.noun_chunks</td><td>Noun phrases</td></tr>
+          <tr><td>token.subtree</td><td>All descendant tokens</td></tr>
+          <tr><td>token.ancestors</td><td>Head path to root</td></tr>
+          <tr><td>token.children</td><td>Immediate dependents</td></tr>
+          <tr><td>Matcher(nlp.vocab)</td><td>Rule-based matching</td></tr>
+          <tr><td>PhraseMatcher</td><td>Match phrase lists</td></tr>
+        </table>
+      </div>
+
+      <div class="cheatsheet-card">
+        <h4>📦 Available Models</h4>
+        <table class="cheatsheet-table">
+          <tr><td>en_core_web_sm</td><td>Small, fast, no vectors</td></tr>
+          <tr><td>en_core_web_md</td><td>Medium + word vectors</td></tr>
+          <tr><td>en_core_web_lg</td><td>Large + more vectors</td></tr>
+          <tr><td>en_core_web_trf</td><td>Transformer (best)</td></tr>
+          <tr><td>zh_core_web_sm</td><td>Chinese (small)</td></tr>
+          <tr><td>de_core_news_sm</td><td>German (small)</td></tr>
+          <tr><td>fr_core_news_sm</td><td>French (small)</td></tr>
+          <tr><td>es_core_news_sm</td><td>Spanish (small)</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
